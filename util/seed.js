@@ -1,5 +1,5 @@
 const config = require("../config/config");
-const { Thought, User } = require("../models");
+const { thought, user } = require("../models");
 const { getUserData, getThoughtData, getReactionData } = require("./data");
 
 config.on("error", (err) => err);
@@ -8,11 +8,11 @@ config.once("open", async () => {
   let promises = [];
   console.log("connected");
 
-  await Thought.deleteMany({});
-  await User.deleteMany({});
+  await thought.deleteMany({});
+  await user.deleteMany({});
 
-  const users = await User.create(getUserData);
-  const thoughts = await Thought.create(getThoughtData);
+  const users = await user.create(getUserData);
+  const thoughts = await thought.create(getThoughtData);
 
   const userIds = users.map((obj) => {
     return obj._id.toString();
@@ -22,15 +22,15 @@ config.once("open", async () => {
   });
 
   userIds.forEach((id, i) => {
-    const getFriend = User.updateMany(
+    const getFriend = user.updateMany(
       { _id: { $ne: id } },
       { $addToSet: { friends: id } }
     );
-    const getThought = User.findOneAndUpdate(
+    const getThought = user.findOneAndUpdate(
       { _id: id },
       { $addToSet: { thoughts: thoughtIds[i] } }
     );
-    const getReaction = Thought.findByIdAndUpdate(
+    const getReaction = thought.findByIdAndUpdate(
       thoughtIds[i],
       { $addToSet: { reactions: getReactionData[i] } },
       { new: true }

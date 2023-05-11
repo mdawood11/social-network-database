@@ -1,9 +1,9 @@
-const { User, Thought } = require("../models");
+const { user, thought } = require("../models");
 
 // fetch all thoughts
 const fetchThoughts = async (req, res) => {
   try {
-    const thoughts = await Thought.find({});
+    const thoughts = await thought.find({});
 
     res.json(thoughts);
   } catch (err) {
@@ -14,7 +14,7 @@ const fetchThoughts = async (req, res) => {
 // fetch single thought
 const fetchSingleThought = async (req, res) => {
   try {
-    const findThought = await Thought.findOne({ _id: req.params.thoughtId });
+    const findThought = await thought.findOne({ _id: req.params.thoughtId });
 
     res.json(findThought);
   } catch (err) {
@@ -26,8 +26,8 @@ const fetchSingleThought = async (req, res) => {
 const makeThought = async (req, res) => {
   const { thoughtText, username, userId } = req.body;
   try {
-    const makeNewThought = await Thought.create({ thoughtText, username });
-    const updateUser = await User.findByIdAndUpdate(
+    const makeNewThought = await thought.create({ thoughtText, username });
+    const updateUser = await user.findByIdAndUpdate(
       userId,
       { $addToSet: { thoughts: makeNewThought._id } },
       { new: true }
@@ -42,7 +42,7 @@ const makeThought = async (req, res) => {
 // update user thought
 const updateUserThought = async (req, res) => {
   try {
-    const updatedUserThought = await Thought.findByIdAndUpdate(
+    const updatedUserThought = await thought.findByIdAndUpdate(
       req.params.thoughtId,
       { $set: { ...req.body } },
       { new: true }
@@ -57,7 +57,7 @@ const updateUserThought = async (req, res) => {
 // delete user thought
 const deleteUserThought = async (req, res) => {
   try {
-    const deletedUserThought = await Thought.deleteOne({
+    const deletedUserThought = await thought.deleteOne({
       _id: req.params.thoughtId,
     });
 
@@ -72,7 +72,7 @@ const addUserReaction = async (req, res) => {
   const { thoughtId } = req.params;
   const { reactionBody, username } = req.body;
   try {
-    const updatedUserThought = await Thought.findByIdAndUpdate(
+    const updatedUserThought = await thought.findByIdAndUpdate(
       thoughtId,
       { $addToSet: { reactions: { username, reactionBody } } },
       { new: true }
@@ -89,7 +89,7 @@ const deleteUserReaction = async (req, res) => {
   const { thoughtId } = req.params;
   const { reactionId } = req.body;
   try {
-    const updatedUserThought = await Thought.findByIdAndUpdate(
+    const updatedUserThought = await thought.findByIdAndUpdate(
       thoughtId,
       { $pull: { reactions: { reactionId } } },
       { new: true }
