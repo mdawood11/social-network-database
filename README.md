@@ -21,8 +21,10 @@ For testing, please click on the link to watch the video.
 [Walkthough Video 🎦](https://drive.google.com/file/d/1bSPoQxmYQ7rBoyiH8wOih7vizyPudu90/view)
 
 ## Screenshot
+![Screen Shot 2023-05-11 at 10 37 00 PM](https://github.com/mdawood11/social-network-database/assets/111917750/569a3cd3-e95e-41d0-9950-837066b72d0a)
 
-![Thought Route]()
+![Screen Shot 2023-05-11 at 10 37 16 PM](https://github.com/mdawood11/social-network-database/assets/111917750/fe00ffe4-5053-4511-bb21-b6099152fd3f)
+
 
 ## Author
 
